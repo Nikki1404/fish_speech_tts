@@ -1,0 +1,11 @@
+.env
+.venv/
+.test-venv/
+__pycache__/
+*.pyc
+checkpoints/*
+!checkpoints/.gitkeep
+references/*
+!references/.gitkeep
+output/*
+!output/.gitkeep

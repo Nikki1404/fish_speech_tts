@@ -1,0 +1,9 @@
+.git
+.env
+.venv
+.test-venv
+__pycache__
+*.pyc
+checkpoints
+references
+output
