@@ -1,1 +1,6 @@
-GPU 0: NVIDIA A10G (UUID: GPU-4aa494b9-9659-a279-8cc5-12c1c9fbf439)
+nvidia-smi \
+  --query-gpu=index,name,memory.total,memory.used,memory.free \
+  --format=csv
+
+nvidia-smi pmon -c 1
+
