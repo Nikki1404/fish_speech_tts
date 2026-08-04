@@ -4,7 +4,6 @@ import asyncio
 import io
 import os
 import queue
-import struct
 import threading
 import time
 import uuid
@@ -21,9 +20,6 @@ from pydantic import ValidationError
 from fish_speech.utils.schema import ServeTTSRequest
 from tools.server.model_manager import ModelManager
 
-
-HOST = os.getenv("HOST", "0.0.0.0")
-PORT = int(os.getenv("PORT", "8000"))
 
 DEVICE = os.getenv("DEVICE", "cpu").strip().lower()
 
@@ -43,25 +39,28 @@ DECODER_CONFIG = os.getenv(
 )
 
 MAX_TEXT_LENGTH = int(os.getenv("MAX_TEXT_LENGTH", "1000"))
-PCM_SCALE = 32768
+
+PCM_SCALE = 32767.0
 
 
 class ServerState:
     model_manager: ModelManager | None = None
     ready: bool = False
     startup_error: str | None = None
+    model_load_ms: float | None = None
 
 
 state = ServerState()
 
-# Fish Speech uses shared model buffers. Process one request at a time.
+# Fish Speech uses shared inference buffers.
+# Keep one inference request active at a time.
 inference_lock = threading.Lock()
 
 
 def validate_environment() -> None:
     if DEVICE != "cpu":
         raise RuntimeError(
-            f"This container is configured for CPU inference, "
+            f"This image is configured for CPU inference, "
             f"but DEVICE={DEVICE!r}"
         )
 
@@ -81,7 +80,10 @@ def get_sample_rate(engine) -> int:
     if hasattr(decoder, "spec_transform"):
         return int(decoder.spec_transform.sample_rate)
 
-    return int(decoder.sample_rate)
+    if hasattr(decoder, "sample_rate"):
+        return int(decoder.sample_rate)
+
+    return 44100
 
 
 def validate_tts_request(request: ServeTTSRequest) -> None:
@@ -97,30 +99,41 @@ def validate_tts_request(request: ServeTTSRequest) -> None:
         )
 
     if request.streaming and request.format != "wav":
-        raise ValueError("Streaming mode supports WAV format only.")
+        raise ValueError("Streaming supports WAV format only.")
 
 
-def encode_audio(
+def float_audio_to_pcm16(audio: np.ndarray) -> bytes:
+    audio_array = np.asarray(audio, dtype=np.float32)
+    audio_array = np.nan_to_num(audio_array)
+    audio_array = np.clip(audio_array, -1.0, 1.0)
+
+    pcm = (audio_array * PCM_SCALE).astype("<i2")
+    return pcm.tobytes()
+
+
+def encode_complete_audio(
     audio: np.ndarray,
     sample_rate: int,
     audio_format: str,
 ) -> bytes:
-    audio = np.asarray(audio, dtype=np.float32)
-    audio = np.clip(audio, -1.0, 1.0)
+    audio_format = audio_format.lower()
+    audio_array = np.asarray(audio, dtype=np.float32)
+    audio_array = np.nan_to_num(audio_array)
+    audio_array = np.clip(audio_array, -1.0, 1.0)
 
     if audio_format == "pcm":
-        return (audio * PCM_SCALE).astype(np.int16).tobytes()
+        return float_audio_to_pcm16(audio_array)
 
     if audio_format != "wav":
         raise ValueError(
-            "This standalone CPU server currently supports WAV and PCM output."
+            "This server currently supports WAV and PCM output."
         )
 
     buffer = io.BytesIO()
 
     sf.write(
         buffer,
-        audio,
+        audio_array,
         sample_rate,
         format="WAV",
         subtype="PCM_16",
@@ -129,45 +142,87 @@ def encode_audio(
     return buffer.getvalue()
 
 
+def content_type_for(audio_format: str) -> str:
+    if audio_format == "wav":
+        return "audio/wav"
+
+    if audio_format == "pcm":
+        return "application/octet-stream"
+
+    return "application/octet-stream"
+
+
 def generate_complete_audio(
     request: ServeTTSRequest,
-) -> tuple[bytes, int]:
+) -> tuple[bytes, int, dict[str, float]]:
     engine = get_engine()
-    sample_rate = get_sample_rate(engine)
 
+    inference_started_at = time.perf_counter()
+    first_result_at: float | None = None
     final_audio: np.ndarray | None = None
+    sample_rate = get_sample_rate(engine)
 
     with inference_lock:
         for result in engine.inference(request):
+            if first_result_at is None:
+                first_result_at = time.perf_counter()
+
             if result.code == "error":
                 raise RuntimeError(str(result.error))
 
             if result.code == "final" and result.audio is not None:
                 sample_rate, final_audio = result.audio
 
+    inference_finished_at = time.perf_counter()
+
     if final_audio is None or final_audio.size == 0:
         raise RuntimeError("Fish Speech generated no audio.")
 
-    encoded = encode_audio(
+    encoding_started_at = time.perf_counter()
+
+    audio_bytes = encode_complete_audio(
         final_audio,
         int(sample_rate),
         request.format,
     )
 
-    return encoded, int(sample_rate)
+    encoding_finished_at = time.perf_counter()
+
+    metrics = {
+        "inference_ttfa_ms": round(
+            (
+                (first_result_at or inference_finished_at)
+                - inference_started_at
+            )
+            * 1000,
+            2,
+        ),
+        "inference_latency_ms": round(
+            (inference_finished_at - inference_started_at) * 1000,
+            2,
+        ),
+        "encoding_latency_ms": round(
+            (encoding_finished_at - encoding_started_at) * 1000,
+            2,
+        ),
+    }
+
+    return audio_bytes, int(sample_rate), metrics
 
 
 def generate_streaming_chunks(
     request: ServeTTSRequest,
 ) -> Iterator[bytes]:
     """
-    Return one WAV header followed by PCM16 audio segments.
+    Yield the streaming WAV header followed by PCM16 audio chunks.
 
-    Fish Speech also emits a final concatenated waveform after streaming
-    all segments. That final result is intentionally not sent again.
+    Fish Speech may emit a final concatenated waveform after all segments.
+    That final waveform is intentionally not sent again.
     """
     engine = get_engine()
-    received_segment = False
+
+    header_sent = False
+    segment_sent = False
 
     with inference_lock:
         for result in engine.inference(request):
@@ -181,35 +236,42 @@ def generate_streaming_chunks(
                 _, header = result.audio
 
                 if isinstance(header, np.ndarray):
-                    yield header.tobytes()
+                    header_bytes = header.tobytes()
                 else:
-                    yield bytes(header)
+                    header_bytes = bytes(header)
+
+                if header_bytes:
+                    header_sent = True
+                    yield header_bytes
 
             elif result.code == "segment":
                 if result.audio is None:
                     continue
 
                 _, audio = result.audio
+                pcm_bytes = float_audio_to_pcm16(audio)
 
-                audio = np.asarray(audio, dtype=np.float32)
-                audio = np.clip(audio, -1.0, 1.0)
-
-                pcm = (audio * PCM_SCALE).astype(np.int16)
-
-                received_segment = True
-                yield pcm.tobytes()
+                if pcm_bytes:
+                    segment_sent = True
+                    yield pcm_bytes
 
             elif result.code == "final":
-                # All segments were already returned.
+                # Streaming segments have already been returned.
                 break
 
-    if not received_segment:
+    if not header_sent:
+        raise RuntimeError("Fish Speech did not generate a WAV header.")
+
+    if not segment_sent:
         raise RuntimeError("Fish Speech generated no streaming audio.")
 
 
 async def generate_streaming_chunks_async(
     request: ServeTTSRequest,
 ) -> AsyncIterator[bytes]:
+    """
+    Bridge the blocking Fish Speech generator into FastAPI asynchronously.
+    """
     output_queue: queue.Queue[bytes | Exception | None] = queue.Queue(
         maxsize=8
     )
@@ -225,12 +287,12 @@ async def generate_streaming_chunks_async(
         finally:
             output_queue.put(None)
 
-    thread = threading.Thread(
+    producer_thread = threading.Thread(
         target=producer,
         name=f"fish-tts-{uuid.uuid4().hex[:8]}",
         daemon=True,
     )
-    thread.start()
+    producer_thread.start()
 
     while True:
         item = await asyncio.to_thread(output_queue.get)
@@ -248,6 +310,8 @@ async def generate_streaming_chunks_async(
 async def lifespan(_: FastAPI):
     validate_environment()
 
+    model_load_started_at = time.perf_counter()
+
     logger.info("Loading Fish Speech S2 Pro on CPU")
     logger.info(f"Model path: {MODEL_PATH}")
     logger.info(f"Decoder path: {DECODER_PATH}")
@@ -264,10 +328,18 @@ async def lifespan(_: FastAPI):
             decoder_config_name=DECODER_CONFIG,
         )
 
+        state.model_load_ms = round(
+            (time.perf_counter() - model_load_started_at) * 1000,
+            2,
+        )
+
         state.ready = True
         state.startup_error = None
 
-        logger.info("Fish Speech S2 Pro loaded successfully on CPU")
+        logger.info(
+            f"Fish Speech loaded successfully on CPU in "
+            f"{state.model_load_ms:.2f} ms"
+        )
 
     except Exception as exc:
         state.ready = False
@@ -308,9 +380,10 @@ async def health() -> JSONResponse:
         "ready": state.ready,
         "device": DEVICE,
         "model": "fishaudio/s2-pro",
+        "model_load_ms": state.model_load_ms,
         "http_tts": "/v1/tts",
         "websocket_tts": "/ws/tts",
-        "port": PORT,
+        "port": 8000,
         "startup_error": state.startup_error,
     }
 
@@ -322,6 +395,8 @@ async def health() -> JSONResponse:
 
 @app.post("/v1/tts")
 async def http_tts(request: ServeTTSRequest):
+    request_started_at = time.perf_counter()
+
     try:
         validate_tts_request(request)
 
@@ -350,27 +425,38 @@ async def http_tts(request: ServeTTSRequest):
                 },
             )
 
-        audio_bytes, sample_rate = await asyncio.to_thread(
-            generate_complete_audio,
-            request,
+        audio_bytes, sample_rate, inference_metrics = (
+            await asyncio.to_thread(
+                generate_complete_audio,
+                request,
+            )
         )
 
-        content_type = (
-            "audio/wav"
-            if request.format == "wav"
-            else "application/octet-stream"
+        total_latency_ms = round(
+            (time.perf_counter() - request_started_at) * 1000,
+            2,
         )
 
         extension = "wav" if request.format == "wav" else "pcm"
 
         return Response(
             content=audio_bytes,
-            media_type=content_type,
+            media_type=content_type_for(request.format),
             headers={
                 "Content-Disposition": (
                     f'attachment; filename="speech.{extension}"'
                 ),
                 "X-Audio-Sample-Rate": str(sample_rate),
+                "X-Total-Latency-Ms": str(total_latency_ms),
+                "X-Inference-TTFA-Ms": str(
+                    inference_metrics["inference_ttfa_ms"]
+                ),
+                "X-Inference-Latency-Ms": str(
+                    inference_metrics["inference_latency_ms"]
+                ),
+                "X-Encoding-Latency-Ms": str(
+                    inference_metrics["encoding_latency_ms"]
+                ),
                 "Cache-Control": "no-store",
             },
         )
@@ -395,12 +481,17 @@ async def http_tts(request: ServeTTSRequest):
 
 @app.websocket("/ws/tts")
 async def websocket_tts(websocket: WebSocket) -> None:
+    connection_accepted_at = time.perf_counter()
+
     await websocket.accept()
 
     request_id = str(uuid.uuid4())
-    started_at = time.perf_counter()
 
+    request_received_at: float | None = None
+    inference_started_at: float | None = None
     first_audio_at: float | None = None
+    generation_finished_at: float | None = None
+
     chunks_sent = 0
     bytes_sent = 0
 
@@ -419,6 +510,7 @@ async def websocket_tts(websocket: WebSocket) -> None:
             return
 
         payload = await websocket.receive_json()
+        request_received_at = time.perf_counter()
 
         try:
             request = ServeTTSRequest.model_validate(payload)
@@ -454,16 +546,29 @@ async def websocket_tts(websocket: WebSocket) -> None:
             }
         )
 
+        inference_started_at = time.perf_counter()
+
         async for chunk in generate_streaming_chunks_async(request):
+            now = time.perf_counter()
+
             if first_audio_at is None:
-                first_audio_at = time.perf_counter()
+                first_audio_at = now
+
+                server_ttfa_ms = (
+                    first_audio_at - request_received_at
+                ) * 1000
+
+                inference_ttfa_ms = (
+                    first_audio_at - inference_started_at
+                ) * 1000
 
                 await websocket.send_json(
                     {
                         "type": "ttfa",
                         "request_id": request_id,
-                        "ttfa_ms": round(
-                            (first_audio_at - started_at) * 1000,
+                        "server_ttfa_ms": round(server_ttfa_ms, 2),
+                        "inference_ttfa_ms": round(
+                            inference_ttfa_ms,
                             2,
                         ),
                     }
@@ -474,13 +579,52 @@ async def websocket_tts(websocket: WebSocket) -> None:
             chunks_sent += 1
             bytes_sent += len(chunk)
 
-        total_ms = (time.perf_counter() - started_at) * 1000
+        generation_finished_at = time.perf_counter()
+
+        server_total_latency_ms = (
+            generation_finished_at - request_received_at
+        ) * 1000
+
+        inference_latency_ms = (
+            generation_finished_at - inference_started_at
+        ) * 1000
+
+        connection_to_done_ms = (
+            generation_finished_at - connection_accepted_at
+        ) * 1000
 
         await websocket.send_json(
             {
                 "type": "done",
                 "request_id": request_id,
-                "elapsed_ms": round(total_ms, 2),
+                "server_ttfa_ms": (
+                    round(
+                        (first_audio_at - request_received_at) * 1000,
+                        2,
+                    )
+                    if first_audio_at is not None
+                    else None
+                ),
+                "inference_ttfa_ms": (
+                    round(
+                        (first_audio_at - inference_started_at) * 1000,
+                        2,
+                    )
+                    if first_audio_at is not None
+                    else None
+                ),
+                "server_total_latency_ms": round(
+                    server_total_latency_ms,
+                    2,
+                ),
+                "inference_latency_ms": round(
+                    inference_latency_ms,
+                    2,
+                ),
+                "connection_to_done_ms": round(
+                    connection_to_done_ms,
+                    2,
+                ),
                 "chunks": chunks_sent,
                 "bytes": bytes_sent,
             }
@@ -495,7 +639,8 @@ async def websocket_tts(websocket: WebSocket) -> None:
 
     except Exception as exc:
         logger.exception(
-            f"WebSocket generation failed: request_id={request_id}: {exc}"
+            f"WebSocket generation failed: "
+            f"request_id={request_id}: {exc}"
         )
 
         try:
