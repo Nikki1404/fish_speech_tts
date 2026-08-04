@@ -22,3 +22,5 @@ curl --ssl-no-revoke \
   --dump-header response-headers.txt \
   --output hello.mp3 \
   --write-out "\nHTTP status: %{http_code}\nContent type: %{content_type}\nDownloaded: %{size_download} bytes\n"
+
+cmd.exe /c start "" "$(cygpath -w "$PWD/hello.mp3")"
