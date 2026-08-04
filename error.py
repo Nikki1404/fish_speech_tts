@@ -1,7 +1,5 @@
-
-
 curl -X POST https://api.fish.audio/v1/tts \
-  -H "Authorization: Bearer $sk-fish-fLbtXLiw_myl9J9KzkifUmaU0n870CFJkCoQjAQyRic" \
+  -H "Authorization: Bearer $FISH_API_KEY" \
   -H "Content-Type: application/json" \
   -H "model: s2-pro" \
   -d '{
