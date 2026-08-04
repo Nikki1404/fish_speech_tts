@@ -23,4 +23,4 @@ curl --ssl-no-revoke \
   --output hello.mp3 \
   --write-out "\nHTTP status: %{http_code}\nContent type: %{content_type}\nDownloaded: %{size_download} bytes\n"
 
-cmd.exe /c start "" "$(cygpath -w "$PWD/hello.mp3")"
+explorer.exe "$(cygpath -w "$PWD/hello-sdk.mp3")"
