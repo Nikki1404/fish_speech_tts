@@ -1,1 +1,1 @@
-https://docs.fish.audio/api-reference/introduction?utm_source=chatgpt.com
+sk-fish-fLbtXLiw_myl9J9KzkifUmaU0n870CFJkCoQjAQyRic
