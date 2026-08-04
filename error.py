@@ -23,4 +23,12 @@ curl --ssl-no-revoke \
   --output hello.mp3 \
   --write-out "\nHTTP status: %{http_code}\nContent type: %{content_type}\nDownloaded: %{size_download} bytes\n"
 
-explorer.exe "$(cygpath -w "$PWD/hello-sdk.mp3")"
+curl --ssl-no-revoke \
+  -X POST "https://api.fish.audio/v1/tts" \
+  -H "Authorization: Bearer $FISH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "model: s2-pro" \
+  -d '{
+    "text":"Hello from Fish Audio!",
+    "format":"mp3"
+  }'
