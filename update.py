@@ -11,40 +11,17 @@ DOCKER_BUILDKIT=1 docker build \
   --progress=plain \
   -t fish-s2-cpu:latest \
 
-(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/fish_speech_tts# DOCKER_BUILDKIT=1 docker build --progress=plain -t fish-s2-cpu:latest .
-#0 building with "default" instance using docker driver
-
-#1 [internal] load build definition from Dockerfile
-#1 transferring dockerfile: 1.43kB done
-#1 DONE 0.0s
-
-#2 [auth] docker/dockerfile:pull token for registry-1.docker.io
-#2 DONE 0.0s
-
-#3 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
-#3 DONE 0.3s
-
-#4 docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
-#4 CACHED
-
-#5 [internal] load metadata for docker.io/fishaudio/fish-speech:latest-server-cpu
-#5 ERROR: docker.io/fishaudio/fish-speech:latest-server-cpu: not found
-
-#6 [auth] fishaudio/fish-speech:pull token for registry-1.docker.io
-#6 DONE 0.0s
-------
- > [internal] load metadata for docker.io/fishaudio/fish-speech:latest-server-cpu:
-------
-Dockerfile:3
---------------------
-   1 |     # syntax=docker/dockerfile:1.7
-   2 |
-   3 | >>> FROM fishaudio/fish-speech:latest-server-cpu
-   4 |
-   5 |     ENV http_proxy="http://163.116.128.80:8080"
---------------------
-ERROR: failed to build: failed to solve: fishaudio/fish-speech:latest-server-cpu: docker.io/fishaudio/fish-speech:latest-server-cpu: not found
-  .
+docker run -d \
+  --name fish-s2-cpu \
+  --restart unless-stopped \
+  --cpus=12 \
+  --shm-size=8g \
+  -p 8000:8000 \
+  -e DEVICE=cpu \
+  -e OMP_NUM_THREADS=12 \
+  -e MKL_NUM_THREADS=12 \
+  -e OPENBLAS_NUM_THREADS=12 \
+  fish-s2-cpu:latest
 
 docker run -d \
   --name fish-s2-cpu \
