@@ -7,7 +7,11 @@ DOCKER_BUILDKIT=1 docker build \
   -t fish-s2-cpu:latest \
 
 docker run -d --cpus=12 --shm-size=8g -p 8000:8000 -e DEVICE=cpu -e OMP_NUM_THREADS=12 -e MKL_NUM_THREADS=12 -e OPENBLAS_NUM_THREADS=12 fish-s2-cpu:latest
+(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/fish_speech_tts# docker run -d --cpus=12 --shm-size=8g -p 8000:8000 -e DEVICE=cpu -e OMP_NUM_THREADS=12 -e MKL_NUM_THREADS=12 -e OPENBLAS_NUM_THREADS=12 fish-s2-cpu:latest
+docker: Error response from daemon: range of CPUs is from 0.01 to 8.00, as there are only 8 CPUs available
 
+
+Run 'docker run --help' for more information
 docker run -d \
   --name fish-s2-cpu \
   --restart unless-stopped \
