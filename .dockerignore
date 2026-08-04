@@ -1,9 +1,13 @@
 .git
-.env
+.gitignore
 .venv
-.test-venv
+.client-venv
 __pycache__
 *.pyc
+*.pyo
+*.wav
+*.mp3
+*.log
+output
 checkpoints
 references
-output
