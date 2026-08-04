@@ -1,7 +1,12 @@
-nproc
+(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/fish_speech_tts# nproc
 free -h
 df -h /
 
+               total        used        free      shared  buff/cache   available
+Mem:            30Gi        10Gi       4.2Gi       377Mi        16Gi        19Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       518G  441G   77G  86% /
 DOCKER_BUILDKIT=1 docker build \
   --progress=plain \
   -t fish-s2-cpu:latest \
