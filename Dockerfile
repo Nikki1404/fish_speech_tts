@@ -1,22 +1,37 @@
-FROM python:3.12-slim
+# syntax=docker/dockerfile:1.7
+FROM fishaudio/fish-speech:server-cuda
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
-
+USER root
 WORKDIR /app
 
-RUN addgroup --system app && adduser --system --ingroup app app
+COPY requirements.txt /app/requirements.txt
+RUN uv pip install \
+    --python /app/.venv/bin/python \
+    --no-cache \
+    --requirement /app/requirements.txt
 
-COPY requirements.txt ./requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+ARG MODEL_REPO=fishaudio/s2-pro
+ARG MODEL_REVISION=main
+RUN --mount=type=cache,target=/root/.cache/huggingface \
+    mkdir -p /app/checkpoints/s2-pro && \
+    /app/.venv/bin/hf download "${MODEL_REPO}" \
+      --revision "${MODEL_REVISION}" \
+      --local-dir /app/checkpoints/s2-pro && \
+    test -f /app/checkpoints/s2-pro/codec.pth
 
-COPY app ./app
+COPY main.py /app/main.py
+RUN chown -R 1000:1000 /app/main.py /app/checkpoints/s2-pro
 
-USER app
-EXPOSE 8880
+USER 1000:1000
+ENV PYTHONUNBUFFERED=1 \
+    HOST=0.0.0.0 \
+    PORT=8000 \
+    DEVICE=cuda \
+    COMPILE=0 \
+    HALF=0 \
+    LLAMA_CHECKPOINT_PATH=/app/checkpoints/s2-pro \
+    DECODER_CHECKPOINT_PATH=/app/checkpoints/s2-pro/codec.pth \
+    DECODER_CONFIG_NAME=modded_dac_vq
 
-HEALTHCHECK --interval=20s --timeout=5s --start-period=10s --retries=5 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8880/health', timeout=4)" || exit 1
-
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8880"]
+EXPOSE 8000
+ENTRYPOINT ["/app/.venv/bin/python", "/app/main.py"]
