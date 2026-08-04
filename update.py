@@ -6,17 +6,7 @@ DOCKER_BUILDKIT=1 docker build \
   --progress=plain \
   -t fish-s2-cpu:latest \
 
-docker run -d \
-  --name fish-s2-cpu \
-  --restart unless-stopped \
-  --cpus=12 \
-  --shm-size=8g \
-  -p 8000:8000 \
-  -e DEVICE=cpu \
-  -e OMP_NUM_THREADS=12 \
-  -e MKL_NUM_THREADS=12 \
-  -e OPENBLAS_NUM_THREADS=12 \
-  fish-s2-cpu:latest
+docker run -d --cpus=12 --shm-size=8g -p 8000:8000 -e DEVICE=cpu -e OMP_NUM_THREADS=12 -e MKL_NUM_THREADS=12 -e OPENBLAS_NUM_THREADS=12 fish-s2-cpu:latest
 
 docker run -d \
   --name fish-s2-cpu \
