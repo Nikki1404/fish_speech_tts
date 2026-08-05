@@ -1,106 +1,49 @@
-15 87.42 Downloading pycryptodome-3.23.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.3 MB)
-#15 87.44    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 100.5 MB/s  0:00:00
-#15 87.45 Downloading pyarrow_hotfix-0.7-py3-none-any.whl (7.9 kB)
-#15 87.47 Downloading pycparser-3.0-py3-none-any.whl (48 kB)
-#15 87.48 Downloading pytorch_lightning-2.6.5-py3-none-any.whl (852 kB)
-#15 87.49    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 852.4/852.4 kB 162.0 MB/s  0:00:00
-#15 87.50 Downloading pytorch_wpe-0.0.1-py3-none-any.whl (8.1 kB)
-#15 87.51 Downloading sentencepiece-0.2.2-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (1.4 MB)
-#15 87.53    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 102.3 MB/s  0:00:00
-#15 87.54 Downloading silero_vad-6.2.1-py3-none-any.whl (9.1 MB)
-#15 87.64    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.1/9.1 MB 92.5 MB/s  0:00:00
-#15 87.65 Downloading torchaudio-2.11.0-cp310-cp310-manylinux_2_28_x86_64.whl (1.8 MB)
-#15 87.68    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 71.9 MB/s  0:00:00
-#15 87.70 Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
-#15 87.76    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 95.4 MB/s  0:00:00
-#15 87.78 Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
-#15 87.78    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 156.5 MB/s  0:00:00
-#15 87.79 Downloading tensorboardx-2.6.5-py3-none-any.whl (87 kB)
-#15 87.81 Downloading torch_complex-0.4.4-py3-none-any.whl (9.1 kB)
-#15 87.82 Downloading umap_learn-0.5.12-py3-none-any.whl (91 kB)
-#15 87.84 Downloading pynndescent-0.6.0-py3-none-any.whl (73 kB)
-#15 87.85 Downloading xxhash-3.8.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (217 kB)
-#15 114.3 Building wheels for collected packages: fish-speech, antlr4-python3-runtime, jieba, oss2, aliyun-python-sdk-core, crcmod, pyaudio
-#15 114.3   Building editable for fish-speech (pyproject.toml): started
-#15 114.8   Building editable for fish-speech (pyproject.toml): finished with status 'done'
-#15 114.8   Created wheel for fish-speech: filename=fish_speech-0.1.0-0.editable-py3-none-any.whl size=10380 sha256=ec84b878cc079992c14cd16841fc370e5e38b43c0a99b6a71c708d1debdfc8c3
-#15 114.8   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/d2/b6/af/4531368e3cebd85fee79d8c58746ae2dfb05083bdcf37bb25a
-#15 114.8   Building wheel for antlr4-python3-runtime (pyproject.toml): started
-#15 115.2   Building wheel for antlr4-python3-runtime (pyproject.toml): finished with status 'done'
-#15 115.2   Created wheel for antlr4-python3-runtime: filename=antlr4_python3_runtime-4.9.3-py3-none-any.whl size=144589 sha256=2539f3454578e2729bb3330d02b477bd69f5d3873156da38e01af165bf3ed68b
-#15 115.2   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/12/93/dd/1f6a127edc45659556564c5730f6d4e300888f4bca2d4c5a88
-#15 115.2   Building wheel for jieba (pyproject.toml): started
-#15 117.4   Building wheel for jieba (pyproject.toml): finished with status 'done'
-#15 117.4   Created wheel for jieba: filename=jieba-0.42.1-py3-none-any.whl size=19314508 sha256=ed736c7d04de4e47d67b9599823fe52b20f1a96d6605a41f6710ccb84a59ddea
-#15 117.4   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/c9/69/31/d56d90b22a1777b0b231e234b00302a55be255930f8bd92dcd
-#15 117.4   Building wheel for oss2 (pyproject.toml): started
-#15 117.8   Building wheel for oss2 (pyproject.toml): finished with status 'done'
-#15 117.8   Created wheel for oss2: filename=oss2-2.19.1-py3-none-any.whl size=124034 sha256=f0623965886dbdcc6c7a963c616b561df8aa938842f42bc78e292348e73a3125
-#15 117.8   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/7d/1b/c6/dbf318597d350b50a94408a23a56b7349e706d61e0a06a6407
-#15 117.8   Building wheel for aliyun-python-sdk-core (pyproject.toml): started
-#15 118.4   Building wheel for aliyun-python-sdk-core (pyproject.toml): finished with status 'done'
-#15 118.4   Created wheel for aliyun-python-sdk-core: filename=aliyun_python_sdk_core-2.16.0-py3-none-any.whl size=535417 sha256=394f63052fc49c6d4d4785c025d8df4012838d5391fc99331580953236ae1fe1
-#15 118.4   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/35/11/5e/08e7cb4e03a3e83b4862edd12d1143c8d3936a3dd57a3ee46d
-#15 118.4   Building wheel for crcmod (pyproject.toml): started
-#15 119.1   Building wheel for crcmod (pyproject.toml): finished with status 'done'
-#15 119.1   Created wheel for crcmod: filename=crcmod-1.7-cp310-cp310-linux_x86_64.whl size=31487 sha256=4947b2452e9d5c954f1a9d062459006b34fb276d8667b9e6165bab2f14e71381
-#15 119.1   Stored in directory: /tmp/pip-ephem-wheel-cache-p2hivln6/wheels/85/4c/07/72215c529bd59d67e3dac29711d7aba1b692f543c808ba9e86
-#15 119.1   Building wheel for pyaudio (pyproject.toml): started
-#15 119.4   Building wheel for pyaudio (pyproject.toml): finished with status 'error'
-#15 119.4   error: subprocess-exited-with-error
-#15 119.4
-#15 119.4   × Building wheel for pyaudio (pyproject.toml) did not run successfully.
-#15 119.4   │ exit code: 1
-#15 119.4   ╰─> [27 lines of output]
-#15 119.4       /tmp/pip-build-env-qn3ydkq6/overlay/lib/python3.10/site-packages/setuptools/dist.py:765: SetuptoolsDeprecationWarning: License classifiers are deprecated.
-#15 119.4       !!
-#15 119.4
-#15 119.4               ********************************************************************************
-#15 119.4               Please consider removing the following classifiers in favor of a SPDX license expression:
-#15 119.4
-#15 119.4               License :: OSI Approved :: MIT License
-#15 119.4
-#15 119.4               See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
-#15 119.4               ********************************************************************************
-#15 119.4
-#15 119.4       !!
-#15 119.4         self._finalize_license_expression()
-#15 119.4       running bdist_wheel
-#15 119.4       running build
-#15 119.4       running build_py
-#15 119.4       creating build/lib.linux-x86_64-cpython-310/pyaudio
-#15 119.4       copying src/pyaudio/__init__.py -> build/lib.linux-x86_64-cpython-310/pyaudio
-#15 119.4       running build_ext
-#15 119.4       building 'pyaudio._portaudio' extension
-#15 119.4       creating build/temp.linux-x86_64-cpython-310/src/pyaudio
-#15 119.4       x86_64-linux-gnu-gcc -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O2 -Wall -g -fstack-protector-strong -Wformat -Werror=format-security -g -fwrapv -O2 -fPIC -I/usr/local/include -I/usr/include -I/app/.venv/include -I/usr/include/python3.10 -c src/pyaudio/device_api.c -o build/temp.linux-x86_64-cpython-310/src/pyaudio/device_api.o
-#15 119.4       src/pyaudio/device_api.c:9:10: fatal error: portaudio.h: No such file or directory
-#15 119.4           9 | #include "portaudio.h"
-#15 119.4             |          ^~~~~~~~~~~~~
-#15 119.4       compilation terminated.
-#15 119.4       error: command '/usr/bin/x86_64-linux-gnu-gcc' failed with exit code 1
-#15 119.4       [end of output]
-#15 119.4
-#15 119.4   note: This error originates from a subprocess, and is likely not a problem with pip.
-#15 119.4   ERROR: Failed building wheel for pyaudio
-#15 119.5 Successfully built fish-speech antlr4-python3-runtime jieba oss2 aliyun-python-sdk-core crcmod
-#15 119.5 Failed to build pyaudio
-#15 119.5 error: failed-wheel-build-for-install
-#15 119.5
-#15 119.5 × Failed to build installable wheels for some pyproject.toml based projects
-#15 119.5 ╰─> pyaudio
-#15 ERROR: process "/bin/sh -c python -m pip install --upgrade pip setuptools wheel &&     python -m pip install --no-cache-dir -e \".[stable]\"" did not complete successfully: exit code: 1
-------
- > [ 7/12] RUN python -m pip install --upgrade pip setuptools wheel &&     python -m pip install --no-cache-dir -e ".[stable]":
-119.4       [end of output]
-119.4
-119.4   note: This error originates from a subprocess, and is likely not a problem with pip.
-119.4   ERROR: Failed building wheel for pyaudio
-119.5 Successfully built fish-speech antlr4-python3-runtime jieba oss2 aliyun-python-sdk-core crcmod
-119.5 Failed to build pyaudio
-119.5 error: failed-wheel-build-for-install
-119.5
-119.5 × Failed to build installable wheels for some pyproject.toml based projects
-119.5 ╰─> pyaudio
-------
-ERROR: failed to build: failed to solve: process "/bin/sh -c python -m pip install --upgrade pip setuptools wheel &&     python -m pip install --no-cache-dir -e \".[stable]\"" did not complete successfully: exit code: 1
+(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/fish_speech_1.5# docker logs 655a9e76f135
+Traceback (most recent call last):
+  File "/app/.venv/bin/uvicorn", line 6, in <module>
+    sys.exit(main())
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 440, in main
+    run(
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 609, in run
+    config.load_app()
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/fish-speech/app/main.py", line 20, in <module>
+    from tools.server.model_manager import ModelManager
+  File "/app/fish-speech/tools/server/model_manager.py", line 2, in <module>
+    from funasr import AutoModel
+  File "/app/.venv/lib/python3.10/site-packages/funasr/__init__.py", line 39, in <module>
+    from funasr.auto.auto_model import AutoModel
+  File "/app/.venv/lib/python3.10/site-packages/funasr/auto/auto_model.py", line 19, in <module>
+    from funasr.utils.load_utils import load_bytes
+  File "/app/.venv/lib/python3.10/site-packages/funasr/utils/load_utils.py", line 8, in <module>
+    import torchaudio
+  File "/app/.venv/lib/python3.10/site-packages/torchaudio/__init__.py", line 7, in <module>
+    from . import _extension  # noqa  # usort: skip
+  File "/app/.venv/lib/python3.10/site-packages/torchaudio/_extension/__init__.py", line 30, in <module>
+    _IS_TORCHAUDIO_EXT_AVAILABLE = _load_lib("_torchaudio")
+  File "/app/.venv/lib/python3.10/site-packages/torchaudio/_extension/utils.py", line 56, in _load_lib
+    torch.ops.load_library(paths[0])
+  File "/app/.venv/lib/python3.10/site-packages/torch/_ops.py", line 1295, in load_library
+    ctypes.CDLL(path)
+  File "/usr/lib/python3.10/ctypes/__init__.py", line 374, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: libcudart.so.13: cannot open shared object file: No such file or directory
