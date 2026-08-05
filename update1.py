@@ -36,3 +36,27 @@ Frames                       : 589824
 ================================================================
 [playback] sample_rate=44100 Hz, channels=1, frames=589824
 [playback] completed
+
+
+                      update on the Fish Speech TTS work:
+ 
+* Set up a standalone Fish Speech TTS application  FastAPI server exposing both HTTP (`/v1/tts`) and WebSocket (`/ws/tts`) endpoints.
+
+ 
+Challenges encountered:
+ 
+1. GPU deployment
+ 
+   * Attempted to run the latest Fish Speech S2 Pro model on the available A10G GPU.
+   * Model loading starts successfully, but initialization fails with a CUDA out-of-memory error while allocating the KV cache.
+   * The GPU currently has only ~215 MB free because it is already occupied by the production Nemotron ASR  containers, which cannot be stopped as they are actively in use.
+ 
+2. CPU deployment
+ 
+   * Switched to a CPU-only deployment using the official Fish Speech CPU image.
+   * The model loads successfully, but startup takes approximately **833 seconds (~14 minutes)**, making it impractical for production use on the current machine configuration.
+ 
+3. Official Fish Audio API
+ 
+   * Evaluated the hosted API as the quickest alternative for validation.
+   * Authentication succeeded, but inference could not be tested because my account had insufficient API credits.
