@@ -77,3 +77,27 @@ torch.AcceleratorError: CUDA error: out of memory
 CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
 For debugging consider passing CUDA_LAUNCH_BLOCKING=1
 Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+
+re_nikitav@EC03-E01-AICOE1:~$ nvidia-smi
+Wed Aug  5 05:41:35 2026
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A10G                    Off |   00000000:00:1E.0 Off |                    0 |
+|  0%   40C    P0             64W /  300W |   12466MiB /  23028MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A   2354247      C   tritonserver                                 9588MiB |
+|    0   N/A  N/A   3588267      C   /usr/local/bin/python3.11                    2864MiB |
++-----------------------------------------------------------------------------------------+
