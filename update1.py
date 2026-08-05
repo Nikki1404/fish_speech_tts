@@ -1,49 +1,38 @@
-(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/fish_speech_1.5# docker logs 655a9e76f135
-Traceback (most recent call last):
-  File "/app/.venv/bin/uvicorn", line 6, in <module>
-    sys.exit(main())
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1569, in __call__
-    return self.main(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1490, in main
-    rv = self.invoke(ctx)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1353, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 907, in invoke
-    return callback(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 440, in main
-    run(
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 609, in run
-    config.load_app()
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/config.py", line 428, in load_app
-    return import_from_string(self.app)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/importer.py", line 19, in import_from_string
-    module = importlib.import_module(module_str)
-  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
-  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/app/fish-speech/app/main.py", line 20, in <module>
-    from tools.server.model_manager import ModelManager
-  File "/app/fish-speech/tools/server/model_manager.py", line 2, in <module>
-    from funasr import AutoModel
-  File "/app/.venv/lib/python3.10/site-packages/funasr/__init__.py", line 39, in <module>
-    from funasr.auto.auto_model import AutoModel
-  File "/app/.venv/lib/python3.10/site-packages/funasr/auto/auto_model.py", line 19, in <module>
-    from funasr.utils.load_utils import load_bytes
-  File "/app/.venv/lib/python3.10/site-packages/funasr/utils/load_utils.py", line 8, in <module>
-    import torchaudio
-  File "/app/.venv/lib/python3.10/site-packages/torchaudio/__init__.py", line 7, in <module>
-    from . import _extension  # noqa  # usort: skip
-  File "/app/.venv/lib/python3.10/site-packages/torchaudio/_extension/__init__.py", line 30, in <module>
-    _IS_TORCHAUDIO_EXT_AVAILABLE = _load_lib("_torchaudio")
-  File "/app/.venv/lib/python3.10/site-packages/torchaudio/_extension/utils.py", line 56, in _load_lib
-    torch.ops.load_library(paths[0])
-  File "/app/.venv/lib/python3.10/site-packages/torch/_ops.py", line 1295, in load_library
-    ctypes.CDLL(path)
-  File "/usr/lib/python3.10/ctypes/__init__.py", line 374, in __init__
-    self._handle = _dlopen(self._name, mode)
-OSError: libcudart.so.13: cannot open shared object file: No such file or directory
+(tts_env) PS C:\Users\re_nikitav\Desktop\tts\fish_speech_1.5> python .\client.py
+Text: Hi Hello, thank you for calling Inspira Financial. What can I help you with today? I would also like to withdraw money from my account To help you with that, I'll need to verify your identity.
+[connect] ws://127.0.0.1:8000/ws/tts
+[output] C:\Users\re_nikitav\Desktop\tts\fish_speech_1.5\fish-speech-15.wav
+[playback] enabled
+[connection-latency] 662.03 ms
+[accepted] {"type": "accepted", "request_id": "3b768fcd-92a0-4cc4-b137-dda45dfd813d", "device": "cuda", "model": "fishaudio/fish-speech-1.5", "format": "wav", "delivery": "complete-wav-chunked"}
+[ttfa] {"type": "ttfa", "request_id": "3b768fcd-92a0-4cc4-b137-dda45dfd813d", "server_ttfa_ms": 20185.19, "inference_first_result_ms": 20176.69, "inference_latency_ms": 20176.73}
+[client-ttfa] 21373.76 ms
+[done] {"type": "done", "request_id": "3b768fcd-92a0-4cc4-b137-dda45dfd813d", "server_ttfa_ms": 20185.19, "inference_first_result_ms": 20176.69, "inference_latency_ms": 20176.73, "wav_encoding_latency_ms": 8.06, "generation_latency_ms": 20185.06, "server_total_latency_ms": 20239.39, "connection_to_done_ms": 20572.8, "sample_rate": 44100, "chunks": 19, "bytes": 1179692}
+
+================================================================
+LATENCY SUMMARY
+================================================================
+Connection latency            : 662.03 ms
+Client TTFA                   : 21373.76 ms
+End-to-end TTFA               : 22036.61 ms
+Server TTFA                   : 20185.19 ms
+Inference first result        : 20176.69 ms
+Inference latency             : 20176.73 ms
+WAV encoding latency          : 8.06 ms
+Generation latency            : 20185.06 ms
+Client total latency          : 24817.81 ms
+End-to-end latency            : 25480.66 ms
+Server total latency          : 20239.39 ms
+Connection to done            : 20572.80 ms
+================================================================
+Saved WAV                    : C:\Users\re_nikitav\Desktop\tts\fish_speech_1.5\fish-speech-15.wav
+File size                    : 1,179,692 bytes
+Received bytes               : 1,179,692
+Received chunks              : 19
+Sample rate                  : 44100 Hz
+Channels                     : 1
+Sample width                 : 2 bytes
+Frames                       : 589824
+================================================================
+[playback] sample_rate=44100 Hz, channels=1, frames=589824
+[playback] completed
