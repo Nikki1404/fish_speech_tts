@@ -1,8 +1,33 @@
-41.44 Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
-41.45    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 228.2 MB/s  0:00:00
-41.79 Installing collected packages: mpmath, typing-extensions, sympy, pillow, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufft-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, MarkupSafe, fsspec, filelock, triton, nvidia-cusparse-cu12, nvidia-cudnn-cu12, jinja2, nvidia-cusolver-cu12, torch, torchvision, torchaudio
-95.06 ERROR: Could not install packages due to an OSError: [Errno 28] No space left on device
-95.06
-95.06
-------
-ERROR: failed to build: failed to solve: process "/bin/sh -c python -m pip install     --no-cache-dir     torch==2.4.1     torchvision==0.19.1     torchaudio==2.4.1     --index-url https://download.pytorch.org/whl/cu124" did not complete successfully: exit code: 1
+(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/Fish_audio_s1mini# docker logs 9f943e026322
+Traceback (most recent call last):
+  File "/app/.venv/bin/uvicorn", line 6, in <module>
+    sys.exit(main())
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1569, in __call__
+    return self.main(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1490, in main
+    rv = self.invoke(ctx)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1353, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 907, in invoke
+    return callback(*args, **kwargs)
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 440, in main
+    run(
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 609, in run
+    config.load_app()
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/config.py", line 428, in load_app
+    return import_from_string(self.app)
+  File "/app/.venv/lib/python3.10/site-packages/uvicorn/importer.py", line 19, in import_from_string
+    module = importlib.import_module(module_str)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/app/fish-speech/app/main.py", line 19, in <module>
+    from tools.server.model_manager import ModelManager
+  File "/app/fish-speech/tools/server/model_manager.py", line 7, in <module>
+    from fish_speech.models.text2semantic.inference import (
+ImportError: cannot import name 'launch_thread_safe_queue_agent' from 'fish_speech.models.text2semantic.inference' (/app/fish-speech/fish_speech/models/text2semantic/inference.py)
