@@ -1,33 +1,50 @@
-(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/Fish_audio_s1mini# docker logs 9f943e026322
-Traceback (most recent call last):
-  File "/app/.venv/bin/uvicorn", line 6, in <module>
-    sys.exit(main())
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1569, in __call__
-    return self.main(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1490, in main
-    rv = self.invoke(ctx)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1353, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 907, in invoke
-    return callback(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 440, in main
-    run(
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 609, in run
-    config.load_app()
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/config.py", line 428, in load_app
-    return import_from_string(self.app)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/importer.py", line 19, in import_from_string
-    module = importlib.import_module(module_str)
-  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
-  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/app/fish-speech/app/main.py", line 19, in <module>
-    from tools.server.model_manager import ModelManager
-  File "/app/fish-speech/tools/server/model_manager.py", line 7, in <module>
-    from fish_speech.models.text2semantic.inference import (
-ImportError: cannot import name 'launch_thread_safe_queue_agent' from 'fish_speech.models.text2semantic.inference' (/app/fish-speech/fish_speech/models/text2semantic/inference.py)
+(tts_env) PS C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini> python client.py
+Text: Hi Hello, thank you for calling Inspira Financial. What can I help you with today? I would also like to withdraw money from my account To help you with that, I'll need to verify your identity
+[connect] ws://127.0.0.1:8001/ws/tts
+[output] C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini\fish-s1-mini-stream.wav
+[live-playback] enabled
+[connection-latency] 665.03 ms
+[accepted] {"type": "accepted", "request_id": "7211e1ae-1f9b-45c5-a0b6-f43c328afed4", "model": "fishaudio/s1-mini", "device": "cuda", "sample_rate": 44100, "channels": 1, "sample_width": 2, "delivery": "pcm-stream"}
+[ttfa] {"type": "ttfa", "request_id": "7211e1ae-1f9b-45c5-a0b6-f43c328afed4", "server_ttfa_ms": 9390.51, "inference_ttfa_ms": 9390.36}
+[client-ttfa] 11469.59 ms
+[audible-ttfa] 11470.35 ms
+[done] {"type": "done", "request_id": "7211e1ae-1f9b-45c5-a0b6-f43c328afed4", "server_ttfa_ms": 9390.51, "inference_ttfa_ms": 9390.36, "server_total_latency_ms": 20893.57, "inference_latency_ms": 20893.41, "connection_to_done_ms": 21166.9, "sample_rate": 44100, "header_bytes": 44, "audio_bytes": 933888, "audio_segments": 3}
+Connection latency            : 665.03 ms
+Client first-PCM TTFA         : 11469.59 ms
+Audible TTFA                  : 11470.35 ms
+Server TTFA                   : 9390.51 ms
+Inference TTFA                : 9390.36 ms
+Inference total latency       : 20893.41 ms
+Server total latency          : 20893.57 ms
+Client total latency          : 24734.93 ms
+Saved WAV: C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini\fish-s1-mini-stream.wav
+Header bytes: 44
+Audio bytes: 933,888
+Audio segments: 3
+Sample rate: 44100 Hz
+Frames: 466944
+(tts_env) PS C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini> python client.py
+Text: hi hello there today is Thursday and it rainy outside and there are some queries which needs to be resolved like  withdraw money from my account, card delivery, address change , profile updation and other things so would you please help with that
+[connect] ws://127.0.0.1:8001/ws/tts
+[output] C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini\fish-s1-mini-stream.wav
+[live-playback] enabled
+[connection-latency] 701.31 ms
+[accepted] {"type": "accepted", "request_id": "e8800e78-7955-4166-9660-b856bb054628", "model": "fishaudio/s1-mini", "device": "cuda", "sample_rate": 44100, "channels": 1, "sample_width": 2, "delivery": "pcm-stream"}
+[ttfa] {"type": "ttfa", "request_id": "e8800e78-7955-4166-9660-b856bb054628", "server_ttfa_ms": 12663.59, "inference_ttfa_ms": 12663.45}
+[client-ttfa] 15129.16 ms
+[audible-ttfa] 15142.69 ms
+[done] {"type": "done", "request_id": "e8800e78-7955-4166-9660-b856bb054628", "server_ttfa_ms": 12663.59, "inference_ttfa_ms": 12663.45, "server_total_latency_ms": 33507.12, "inference_latency_ms": 33506.98, "connection_to_done_ms": 33816.46, "sample_rate": 44100, "header_bytes": 44, "audio_bytes": 1503232, "audio_segments": 3}
+Connection latency            : 701.31 ms
+Client first-PCM TTFA         : 15129.16 ms
+Audible TTFA                  : 15142.69 ms
+Server TTFA                   : 12663.59 ms
+Inference TTFA                : 12663.45 ms
+Inference total latency       : 33506.98 ms
+Server total latency          : 33507.12 ms
+Client total latency          : 41963.11 ms
+Saved WAV: C:\Users\re_nikitav\Desktop\tts\Fish_audio_s1mini\fish-s1-mini-stream.wav
+Header bytes: 44
+Audio bytes: 1,503,232
+Audio segments: 3
+Sample rate: 44100 Hz
+Frames: 751616
