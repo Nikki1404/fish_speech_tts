@@ -1,35 +1,21 @@
-(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/Fish_audio_s1mini# docker logs 4074373a9d40
-Traceback (most recent call last):
-  File "/app/.venv/bin/uvicorn", line 6, in <module>
-    sys.exit(main())
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1569, in __call__
-    return self.main(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1490, in main
-    rv = self.invoke(ctx)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 1353, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File "/app/.venv/lib/python3.10/site-packages/click/core.py", line 907, in invoke
-    return callback(*args, **kwargs)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 440, in main
-    run(
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/main.py", line 609, in run
-    config.load_app()
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/config.py", line 428, in load_app
-    return import_from_string(self.app)
-  File "/app/.venv/lib/python3.10/site-packages/uvicorn/importer.py", line 19, in import_from_string
-    module = importlib.import_module(module_str)
-  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
-  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/app/fish-speech/app/main.py", line 18, in <module>
-    from fish_speech.utils.schema import ServeTTSRequest
-  File "/app/fish-speech/fish_speech/utils/schema.py", line 12, in <module>
-    from fish_speech.content_sequence import TextPart, VQPart
-  File "/app/fish-speech/fish_speech/content_sequence.py", line 7, in <module>
-    from fish_speech.tokenizer import (
-ImportError: cannot import name 'IM_END_TOKEN' from 'fish_speech.tokenizer' (/app/fish-speech/fish_speech/tokenizer.py)
+#20 7.213
+#20 7.248 ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+#20 7.248 gradio 6.17.3 requires starlette<2.0,>=1.0.1, but you have starlette 0.47.3 which is incompatible.
+#20 7.249 Successfully installed fastapi-0.116.1 httptools-0.8.0 numpy-1.26.4 starlette-0.47.3 uvloop-0.22.1 watchfiles-1.2.0 websockets-16.1.1
+#20 DONE 7.4s
+
+#21 [stage-0 13/18] RUN python - <<'PY'
+#21 2.839 torch: 2.8.0+cu126
+#21 2.839 torch CUDA: 12.6
+#21 2.839 torchaudio: 2.8.0+cu126
+#21 2.839 torchvision: 0.23.0+cu126
+#21 DONE 3.4s
+
+#22 [stage-0 14/18] RUN --mount=type=secret,id=hf_token     --mount=type=cache,target=/root/.cache/huggingface     HF_TOKEN="$(cat /run/secrets/hf_token)" &&     mkdir -p /app/checkpoints/s1-mini &&     hf download "fishaudio/s1-mini"         --revision "main"         --token "${HF_TOKEN}"         --local-dir /app/checkpoints/s1-mini         --max-workers 1 &&     test -f /app/checkpoints/s1-mini/model.pth &&     test -f /app/checkpoints/s1-mini/codec.pth &&     test -f /app/checkpoints/s1-mini/config.json &&     test -f /app/checkpoints/s1-mini/tokenizer.tiktoken &&     test -f /app/checkpoints/s1-mini/special_tokens.json
+#22 0.272 cat: /run/secrets/hf_token: No such file or directory
+#22 ERROR: process "/bin/sh -c HF_TOKEN=\"$(cat /run/secrets/hf_token)\" &&     mkdir -p /app/checkpoints/s1-mini &&     hf download \"${MODEL_REPO}\"         --revision \"${MODEL_REVISION}\"         --token \"${HF_TOKEN}\"         --local-dir /app/checkpoints/s1-mini         --max-workers 1 &&     test -f /app/checkpoints/s1-mini/model.pth &&     test -f /app/checkpoints/s1-mini/codec.pth &&     test -f /app/checkpoints/s1-mini/config.json &&     test -f /app/checkpoints/s1-mini/tokenizer.tiktoken &&     test -f /app/checkpoints/s1-mini/special_tokens.json" did not complete successfully: exit code: 1
+------
+ > [stage-0 14/18] RUN --mount=type=secret,id=hf_token     --mount=type=cache,target=/root/.cache/huggingface     HF_TOKEN="$(cat /run/secrets/hf_token)" &&     mkdir -p /app/checkpoints/s1-mini &&     hf download "fishaudio/s1-mini"         --revision "main"         --token "${HF_TOKEN}"         --local-dir /app/checkpoints/s1-mini         --max-workers 1 &&     test -f /app/checkpoints/s1-mini/model.pth &&     test -f /app/checkpoints/s1-mini/codec.pth &&     test -f /app/checkpoints/s1-mini/config.json &&     test -f /app/checkpoints/s1-mini/tokenizer.tiktoken &&     test -f /app/checkpoints/s1-mini/special_tokens.json:
+0.272 cat: /run/secrets/hf_token: No such file or directory
+------
+ERROR: failed to build: failed to solve: process "/bin/sh -c HF_TOKEN=\"$(cat /run/secrets/hf_token)\" &&     mkdir -p /app/checkpoints/s1-mini &&     hf download \"${MODEL_REPO}\"         --revision \"${MODEL_REVISION}\"         --token \"${HF_TOKEN}\"         --local-dir /app/checkpoints/s1-mini         --max-workers 1 &&     test -f /app/checkpoints/s1-mini/model.pth &&     test -f /app/checkpoints/s1-mini/codec.pth &&     test -f /app/checkpoints/s1-mini/config.json &&     test -f /app/checkpoints/s1-mini/tokenizer.tiktoken &&     test -f /app/checkpoints/s1-mini/special_tokens.json" did not complete successfully: exit code: 1
