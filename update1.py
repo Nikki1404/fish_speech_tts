@@ -23,40 +23,4 @@ py -3.11 load_test_until_failure_with_scaling.py --mode http --manifest loadtest
 docker run -d --gpus all --name qwen3-tts -p 8003:8003 qwen3-tts
 
 
-docker run --rm \
-  --gpus all \
-  qwen3-tts \
-  python -c "
-import torch
-print('Torch version :', torch.__version__)
-print('Torch CUDA    :', torch.version.cuda)
-print('CUDA available:', torch.cuda.is_available())
-if torch.cuda.is_available():
-    print('GPU           :', torch.cuda.get_device_name(0))
-"
-
-
-(base) root@EC03-E01-AICOE1:/home/CORP/re_nikitav/quen_3_tts# nvidia-smi
-Mon Aug 10 12:03:54 2026
-+-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 560.35.03              Driver Version: 560.35.03      CUDA Version: 12.6     |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|                                         |                        |               MIG M. |
-|=========================================+========================+======================|
-|   0  NVIDIA A10G                    Off |   00000000:00:1E.0 Off |                    0 |
-|  0%   39C    P0             63W /  300W |   19203MiB /  23028MiB |      0%      Default |
-|                                         |                        |                  N/A |
-+-----------------------------------------+------------------------+----------------------+
-
-+-----------------------------------------------------------------------------------------+
-| Processes:                                                                              |
-|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
-|        ID   ID                                                               Usage      |
-|=========================================================================================|
-|    0   N/A  N/A   1010503      C   /app/.venv/bin/python                           0MiB |
-|    0   N/A  N/A   1458978      C   /app/.venv/bin/python                           0MiB |
-|    0   N/A  N/A   2354247      C   tritonserver                                 9588MiB |
-|    0   N/A  N/A   3588267      C   /usr/local/bin/python3.11                    2864MiB |
-+-----------------------------------------------------------------------------------------+
+python client.py --server ws://<EC2-IP>:8001/ws/tts --text "I cannot believe we finally made it!" --language English --speaker Aiden --instruct "Speak happily and with excitement." --output excited.wav
