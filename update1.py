@@ -51,3 +51,4 @@ So currently: **Fish S1 Mini → latency advantage; Qwen3-TTS → emotion/style 
 
 
 https://console.cloud.google.com/artifacts/docker/emr-dgt-autonomous-uctr1-snbx/us-central1/qwen-3-tts?project=emr-dgt-autonomous-uctr1-snbx
+docker tag qwen3-tts:latest us-central1-docker.pkg.dev/emr-dgt-autonomous-uctr1-snbx/qwen-3-tts/qwen3-tts:latest
