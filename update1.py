@@ -47,3 +47,7 @@ I completed an initial comparison of **Fish Speech 1.5, Fish S1 Mini, and Qwen3-
 * Qwen CustomVoice also provides multiple built-in speakers (e.g. Aiden), while both Fish and Qwen support voice-cloning workflows.
 
 So currently: **Fish S1 Mini → latency advantage; Qwen3-TTS → emotion/style and speaker-control advantage.** Qwen's main issue is the current ~24s server TTFA, which needs optimization.
+
+
+
+https://console.cloud.google.com/artifacts/docker/emr-dgt-autonomous-uctr1-snbx/us-central1/qwen-3-tts?project=emr-dgt-autonomous-uctr1-snbx
