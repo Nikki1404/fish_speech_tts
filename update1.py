@@ -64,4 +64,4 @@ E2E TOTAL               : 12658.61 ms
 
 python qwen_cloudrun_loadtest.py --url wss://qwen3-tts-150916788856.us-central1.run.app/ws/tts --project emr-dgt-autonomous-uctr1-snbx --service qwen3-tts --region us-central1 --levels 1 5 10 15 20 22 24 25 26 28 30 35 40 45 50 60 70 80
   python client.py --text "Hello, thank you for calling Inspira Financial. How can I help you today?" --language English --speaker Aiden --instruct "Speak in a professional customer service tone." --output warm.wav --play
-python cold_start_client.py --mode openai --file "C:\Users\re_nikitav\Documents\test.wav" --language en-US --runs 2
+py -3.11 cold_start_client.py --mode openai --file "C:\Users\re_nikitav\Documents\test.wav" --openai-url "https://nemotron-3-5-150916788856.us-central1.run.app/v1/audio/transcriptions" --language en-US --runs 2
