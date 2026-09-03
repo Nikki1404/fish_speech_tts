@@ -1,0 +1,115 @@
+Hi everyone,
+
+As discussed in today’s session, please complete the following Python task **individually** and submit it by **9:00 PM today** so I can review it and provide feedback.
+
+### Python Task – Student Result Management System
+
+Create a simple Python program to manage and process student results.
+
+Use the following student data:
+
+```python
+students = [
+    {
+        "id": 101,
+        "name": "Amit",
+        "marks": [70, 80, 90]
+    },
+    {
+        "id": 102,
+        "name": "Neha",
+        "marks": [60, 75, 85]
+    },
+    {
+        "id": 103,
+        "name": "Rahul",
+        "marks": [90, 95, 92]
+    },
+    {
+        "id": 104,
+        "name": "Priya",
+        "marks": [50, 55, 45]
+    }
+]
+```
+
+### Requirements
+
+Your program should:
+
+1. Process every student in the given data.
+2. Calculate the **total marks** of each student.
+3. Calculate the **average marks** of each student.
+4. Determine the student's result:
+
+   * Average >= 60 → `Pass`
+   * Average < 60 → `Fail`
+5. Display the following for every student:
+
+   * Student ID
+   * Name
+   * Total marks
+   * Average marks
+   * Pass/Fail status
+6. Find and display the student with the **highest average marks**.
+7. Display a final summary containing:
+
+   * Total number of students
+   * Number of students who passed
+   * Number of students who failed
+
+### Functions
+
+Try to organize your logic using functions. At minimum, create functions for:
+
+```python
+def calculate_average(marks):
+    pass
+
+def get_status(average):
+    pass
+
+def find_top_student(students):
+    pass
+```
+
+You need to decide how these functions should be implemented and used in your program.
+
+### Optional Challenge
+
+If you complete the above requirements, you can additionally allow the user to enter a new student's:
+
+* Student ID
+* Name
+* Marks for 3 subjects
+
+Then process that student using the same logic.
+
+### Important Guidelines
+
+* Complete the task **individually**.
+* Use only **basic/core Python**.
+* Do **not** use Pandas, NumPy, or any other external library.
+* OOP/classes are **not required** for this task.
+* Keep the implementation simple and readable.
+* You may refer to Python syntax/documentation if required, but make sure you understand the code you submit.
+* Do not unnecessarily complicate the solution.
+* For now, complete the task in your **local editor**.
+* You do **not** need to push the code to Git yet. I will provide a Git walkthrough separately because of the access/issues discussed during the call.
+
+### Submission
+
+Please submit:
+
+1. Your `.py` file.
+2. A small `README.md` containing:
+
+   * What the program does
+   * How to run it
+   * Any assumptions you made
+
+**Deadline: Today by 9:00 PM.**
+
+The purpose of this task is not to check advanced Python knowledge. I mainly want to understand your current Python fundamentals, problem-solving approach, code structure, and how you think about a requirement.
+
+I will review each submission, so please make sure you can explain the code and the approach you used.
