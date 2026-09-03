@@ -1,7 +1,5 @@
 Hi everyone,
 
-As discussed in today’s session, please complete the following Python task **individually** and submit it by **9:00 PM today** so I can review it and provide feedback.
-
 ### Python Task – Student Result Management System
 
 Create a simple Python program to manage and process student results.
@@ -85,7 +83,7 @@ If you complete the above requirements, you can additionally allow the user to e
 
 Then process that student using the same logic.
 
-### Important Guidelines
+### Important -
 
 * Complete the task **individually**.
 * Use only **basic/core Python**.
@@ -95,7 +93,6 @@ Then process that student using the same logic.
 * You may refer to Python syntax/documentation if required, but make sure you understand the code you submit.
 * Do not unnecessarily complicate the solution.
 * For now, complete the task in your **local editor**.
-* You do **not** need to push the code to Git yet. I will provide a Git walkthrough separately because of the access/issues discussed during the call.
 
 ### Submission
 
@@ -108,7 +105,6 @@ Please submit:
    * How to run it
    * Any assumptions you made
 
-**Deadline: Today by 9:00 PM.**
 
 The purpose of this task is not to check advanced Python knowledge. I mainly want to understand your current Python fundamentals, problem-solving approach, code structure, and how you think about a requirement.
 
